@@ -1,0 +1,17 @@
+fzc_xs	3463	防振锤锈蚀	fzcxs	防振锤锈蚀
+nc	1903	鸟巢	nc	鸟巢
+lsqxz	1729	螺栓缺销子	lsqxz	螺栓缺销子
+xjjxs	1672	小金具锈蚀	xjjxs	小金具锈蚀
+uxls_xs	549	U型螺栓锈蚀	uxlsxs	U型螺栓锈蚀
+fhjyz_sqfh	446	复合绝缘子伞裙粉化	jyzzw	复合绝缘子伞裙粉化
+tcjyz_sqzw	50	陶瓷绝缘子伞裙脏污	jyzzw	陶瓷绝缘子伞裙脏污 
+ddx_sg	409	导地线散股	ddxsg	导地线散股
+lsqdp	363	螺栓缺垫片	lsqdp	螺栓缺垫片
+qnq_sh	354	驱鸟器损坏	qnqsh	驱鸟器损坏
+lslmqk	260	螺栓螺母欠扣	lslmqk	螺栓螺母欠扣
+zc_xs	181	重锤锈蚀	zcxs	重锤锈蚀
+fhjyz_sqps	178	复合绝缘子伞裙破损	jyzsh	复合绝缘子伞裙破损
+fhjyz_sqbx	34	复合绝缘子伞裙变形	jyzsh	复合绝缘子伞裙变形
+xjqx	157	线夹倾斜	xjqx	线夹倾斜
+jyh_qs	137	均压环缺失	jyhqs	均压环缺失
+fnc_wdk	117	防鸟刺未打开	fncwdk	防鸟刺未打开

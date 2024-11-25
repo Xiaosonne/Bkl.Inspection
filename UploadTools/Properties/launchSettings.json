@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UploadTools": {
+      "commandName": "Project",
+      "commandLineArgs": "G:\\TurbineBlade\\xj-dazhong"
+    }
+  }
+}

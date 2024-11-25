@@ -1,0 +1,14 @@
+nc	1888	鸟巢	nc	鸟巢
+lsqxz	1723	螺栓缺销子	lswt	螺栓问题
+lsqlm	14	螺栓缺螺母	lswt	螺栓问题
+lsqdp	358	螺栓缺垫片	lswt	螺栓问题
+lsqbm	13	螺栓缺贝母	lswt	螺栓问题
+lslmqk	261	螺栓螺母欠扣	lswt	螺栓问题
+fzc_xs	3297	防震锤锈蚀	fzcxs	防震锤锈蚀
+zc_xs	115	重锤锈蚀	fzcxs	金具锈蚀
+xjjxs	1330	小金具锈蚀	jjxs	金具锈蚀
+jyz_jjxs	8	绝缘子金具锈蚀		jjxs	金具锈蚀
+uxls_xs	100	U型螺栓锈蚀	jjxs	金具锈蚀
+uxgh_xs	27	U型挂环锈蚀	jjxs	金具锈蚀
+qtgh_xs	21	球头挂环锈蚀	jjxs	金具锈蚀
+zjgb_xs	5	直角挂板锈蚀	jjxs	连接部件锈蚀

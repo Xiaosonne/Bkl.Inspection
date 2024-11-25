@@ -1,0 +1,14 @@
+fhjyz_sqps	35	复合绝缘子伞裙破损	jyzsh	绝缘子损坏
+fhjyz_dhss	2	复合绝缘子电弧烧伤	jyzsh	绝缘子损坏
+tcjyz_sqps	8	陶瓷绝缘子伞裙破损	jyzsh	绝缘子损坏
+tcjyz_dhss	8	陶瓷绝缘子电弧烧伤	jyzsh	绝缘子损坏
+fhjyz_sqbx	18	复合绝缘子伞裙变形	jyzsh	绝缘子损坏
+fhjyz_sqfh	447	复合绝缘子伞裙粉化	jyzsh	绝缘子赃污
+tcjyz_sqzw	51	陶瓷绝缘子伞裙脏污	jyzsh	绝缘子赃污
+yjs_sg	4	预绞丝散股	dxsg	导线散股
+ddx_yw	8	导地线异物	dxsg	导线散股
+ddx_xs	11	导地线锈蚀	dxsg	导线散股
+ddx_ss	31	导地线损伤	dxsg	导线散股
+ddx_sg	410	导地线散股	dxsg	导线散股
+ddx_dg	4	导地线断股	dxsg	导线散股
+gt_yw	484	杆塔异物	gtyw	杆塔异物

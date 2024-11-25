@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bkl.Models", "Bkl.Models\Bkl.Models.csproj", "{EBCAE292-400D-4490-8DE0-49EC4586A982}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bkl.Infrastructure", "Bkl.Infrastructure\Bkl.Infrastructure.csproj", "{96E167C1-A444-4DEF-B054-8BE93FB6F3B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BBDBA537-F3E4-4A53-B0A6-EAB713A2F4FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{3794FEC6-36A9-4EF9-B659-4795FBA85166}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yitter.IdGenerator", "Yitter.IdGenerator\Yitter.IdGenerator.csproj", "{8F0C792A-2915-40CC-AAC3-6F0D5D6EFC4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject2", "TestProject2\TestProject2.csproj", "{79C48554-8D83-4001-8CAB-C724CADC010F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bkl.Inspection", "Bkl.Inspection\Bkl.Inspection.csproj", "{0E760C8F-87CB-4CC2-8C85-AFCFAC30B912}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BklAPIShare", "BklAPIShare\BklAPIShare.shproj", "{6CE40BAA-4197-425C-BFD2-E01BB48C5D7E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{BB8F11F2-0E4B-4AEB-84EA-52C54E4E7B0B}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+		Dockerfile2 = Dockerfile2
+		DockerfileBklESPS = DockerfileBklESPS
+		DockerfileBklInspection = DockerfileBklInspection
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UploadTools", "UploadTools\UploadTools.csproj", "{2B9A3ABB-6554-4E45-A79C-C81E3061184C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{2591653F-AACF-4AFE-A2F5-7F4700CEE60F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBCAE292-400D-4490-8DE0-49EC4586A982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBCAE292-400D-4490-8DE0-49EC4586A982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBCAE292-400D-4490-8DE0-49EC4586A982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBCAE292-400D-4490-8DE0-49EC4586A982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E167C1-A444-4DEF-B054-8BE93FB6F3B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E167C1-A444-4DEF-B054-8BE93FB6F3B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E167C1-A444-4DEF-B054-8BE93FB6F3B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E167C1-A444-4DEF-B054-8BE93FB6F3B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F0C792A-2915-40CC-AAC3-6F0D5D6EFC4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F0C792A-2915-40CC-AAC3-6F0D5D6EFC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F0C792A-2915-40CC-AAC3-6F0D5D6EFC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F0C792A-2915-40CC-AAC3-6F0D5D6EFC4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79C48554-8D83-4001-8CAB-C724CADC010F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79C48554-8D83-4001-8CAB-C724CADC010F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79C48554-8D83-4001-8CAB-C724CADC010F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79C48554-8D83-4001-8CAB-C724CADC010F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E760C8F-87CB-4CC2-8C85-AFCFAC30B912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E760C8F-87CB-4CC2-8C85-AFCFAC30B912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E760C8F-87CB-4CC2-8C85-AFCFAC30B912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E760C8F-87CB-4CC2-8C85-AFCFAC30B912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B9A3ABB-6554-4E45-A79C-C81E3061184C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B9A3ABB-6554-4E45-A79C-C81E3061184C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B9A3ABB-6554-4E45-A79C-C81E3061184C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B9A3ABB-6554-4E45-A79C-C81E3061184C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EBCAE292-400D-4490-8DE0-49EC4586A982} = {3794FEC6-36A9-4EF9-B659-4795FBA85166}
+		{96E167C1-A444-4DEF-B054-8BE93FB6F3B7} = {3794FEC6-36A9-4EF9-B659-4795FBA85166}
+		{8F0C792A-2915-40CC-AAC3-6F0D5D6EFC4C} = {3794FEC6-36A9-4EF9-B659-4795FBA85166}
+		{0E760C8F-87CB-4CC2-8C85-AFCFAC30B912} = {BBDBA537-F3E4-4A53-B0A6-EAB713A2F4FC}
+		{6CE40BAA-4197-425C-BFD2-E01BB48C5D7E} = {3794FEC6-36A9-4EF9-B659-4795FBA85166}
+		{2B9A3ABB-6554-4E45-A79C-C81E3061184C} = {2591653F-AACF-4AFE-A2F5-7F4700CEE60F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5675ADBE-4230-426B-ACE6-229975BDCEBB}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		BklAPIShare\BklAPIShare.projitems*{0e760c8f-87cb-4cc2-8c85-afcfac30b912}*SharedItemsImports = 5
+		BklAPIShare\BklAPIShare.projitems*{6ce40baa-4197-425c-bfd2-e01bb48c5d7e}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

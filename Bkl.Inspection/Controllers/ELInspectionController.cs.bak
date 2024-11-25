@@ -1,0 +1,261 @@
+using Bkl.Infrastructure;
+using Bkl.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace Bkl.Inspection
+{
+	[ApiController]
+	[Authorize]
+	[Route("[controller]")]
+	public class ELInspectionController : Controller
+	{
+		private IServiceProvider serviceProvider;
+		BklDbContext context;
+		private ILogger<ELInspectionController> logger;
+		private IBackgroundTaskQueue<GenerateAllTaskRequest> taskQueue;
+
+		public ELInspectionController(BklDbContext context, IServiceProvider serviceProvider,
+		 ILogger<ELInspectionController> logger)
+		{
+			this.serviceProvider = serviceProvider;
+			this.context = context;
+			this.logger = logger;
+		}
+		[HttpGet("manufactory")]
+		public IActionResult GetElFactories([FromServices] IRedisClient redis)
+		{
+			var elFactory = redis.GetValuesFromHash("FactoryMeta")
+				.Where(s => s.Key.EndsWith("-ELFactory"))
+				.Select(s => s.Value.ToString())
+				.Distinct();
+			return Json(elFactory);
+		}
+		[HttpPost("batch-task-detail")]
+		public   IActionResult  BatchCreate([FromBody] BatchCreateELTaskDetailRequest request)
+		{
+			 var files=Directory.EnumerateFiles(request.Path);
+			 return  Json(files);
+		}
+		[HttpGet("detect")]
+		public async Task<IActionResult> DetectError([FromServices] BklConfig config, 
+			[FromServices] ELDetectHelper elhelper, [FromQuery] long taskid, 
+			[FromQuery] string path)
+		{
+			var result = await elhelper.PathDetect(config, path);
+			return  Json(result);
+		}
+
+        [HttpGet("report")]
+        public IActionResult GetSearchTaskDetail(
+            [FromServices] LogonUser user,
+            [FromQuery] long factoryId,
+            [FromQuery] long taskId)
+        {
+            IQueryable<BklInspectionTaskDetail> query = context.BklInspectionTaskDetail;
+            if (taskId > 0)
+            {
+                query = query.Where(p => p.TaskId == taskId);
+            }
+            if (factoryId > 0)
+            {
+                query = query.Where(p => p.FactoryId == factoryId);
+            }
+
+
+
+            List<BklInspectionTaskDetail> details = query.ToList();
+
+            //if (page > -1 && pagesize > 0)
+            //    details = query.Skip((page - 1) * pagesize).Take(pagesize).ToList();
+            //else
+            //    details = query.ToList();
+            IQueryable<BklInspectionTaskResult> result = context.BklInspectionTaskResult;
+            if (taskId > 0)
+            {
+                result = result.Where(p => p.TaskId == taskId);
+            }
+            if (factoryId > 0)
+            {
+                result = result.Where(p => p.FactoryId == factoryId);
+            }
+
+            var errors = result.ToList();
+            var results = details.Select(s => new { detail = s, errors = errors.Where(q => q.TaskDetailId == s.Id).ToArray() });
+            return Json(new
+            {
+                data = results,
+                totalError = errors.Count(),
+                totalDetail = details.Count,
+                error = 0
+            });
+        }
+
+        [HttpGet("start-{dtype}-task")]
+        public async Task<IActionResult> StartDetectTask(
+            [FromServices] BklConfig config,
+            [FromServices] BklDbContext context,
+            [FromServices] IRedisClient redis,
+            long taskId,
+            [FromRoute] string dtype = "detect")
+        {
+            IBackgroundQueueQueue taskInfoQueue = serviceProvider.GetService<IBackgroundTaskQueue<ELDetectTaskInfo>>();
+            string type = "ELDetect";
+
+            var task = context.BklInspectionTask.FirstOrDefault(s => s.Id == taskId);
+
+            var detailCount = context.BklInspectionTaskDetail
+              .Where(s => s.TaskId == taskId)
+              .Count();
+
+            var taskinfo = new ELDetectTaskInfo { TaskType = task.TaskType, Total = detailCount, TaskId = taskId };
+
+            Dictionary<string, RedisValue> taskDictInfo = new Dictionary<string, RedisValue>();
+            StringBuilder sb = new StringBuilder();
+            if (redis.SetIfNotExists($"{type}Task:Tid.{taskId}", JsonSerializer.Serialize(taskinfo)))
+            {
+                await taskInfoQueue.EnqueueAsync(taskinfo);
+                logger.LogInformation($"StartDetectTask {type} {taskId} {taskinfo.FacilityId}");
+            }
+            else
+            {
+                string jsonStr = redis.Get($"{type}Task:Tid.{taskId}");
+                var oldTask = JsonSerializer.Deserialize<ELDetectTaskInfo>(jsonStr);
+                if (DateTime.Now.Subtract(oldTask.LastTime).TotalMinutes > 5)
+                {
+                    oldTask.LastTime = DateTime.Now;
+                    redis.Set($"{type}Task:Tid.{taskId}", JsonSerializer.Serialize(oldTask));
+                    await taskInfoQueue.EnqueueAsync(taskinfo);
+                    logger.LogInformation($"ReStartDetectTask {type} {taskId} {taskinfo.FacilityId}");
+                }
+                else
+                {
+                    sb.Append($"{taskinfo.FacilityId} ?y?：???DD,??{(5 - DateTime.Now.Subtract(oldTask.LastTime).TotalMinutes).ToString("F2")}?∴??：?o：??：?：????┷");
+                }
+            }
+            if (sb.Length == 0)
+                return Json(new GeneralResponse { error = 0, success = true });
+            return Json(new GeneralResponse { error = 1, msg = sb.ToString() });
+        }
+
+        [HttpPost("task-detail")]
+        public async Task<IActionResult> CreateELImage([FromServices] LogonUser user, [FromServices] IRedisClient redis, [FromBody] CreateELTaskDetailRequest request)
+        {
+            var factory = context.BklFactory.FirstOrDefault(s => s.Id == request.FactoryId);
+            if (factory == null)
+            {
+                throw new Exception($"no factory id {request.FactoryId}");
+            }
+            var facilityNames = request.PictureList.Select(s => s.Name.Split('/')[1].Split('.')[0]).ToList();
+            List<BklFactoryFacility> facis = new List<BklFactoryFacility>();
+            foreach (var facilityName in facilityNames)
+            {
+                var facility = context.BklFactoryFacility.Where(s => s.Name == facilityName).FirstOrDefault();
+                if (facility == null)
+                {
+                    facility = new BklFactoryFacility
+                    {
+                        Name = facilityName,
+                        FactoryName = factory.FactoryName,
+                        FacilityType = "EL",
+                        GPSLocation = "[]",
+                        FactoryId = factory.Id,
+                        CreatorId = user.userId,
+                        Createtime = DateTime.Now,
+                        CreatorName = "",
+                    };
+                    context.BklFactoryFacility.Add(facility);
+                }
+                facis.Add(facility);
+            }
+            var details = request.PictureList.Select(s =>
+                    {
+                        var faci = facis.FirstOrDefault(q => s.Name.Contains(q.Name));
+                        var detail = new BklInspectionTaskDetail
+                        {
+                            FacilityId = faci.Id,
+                            FacilityName = faci.Name,
+                            FactoryId = factory.Id,
+                            FactoryName = factory.FactoryName,
+                            Position = request.Position,
+                            TaskId = request.TaskId,
+                            ImageHeight = s.Height.ToString(),
+                            ImageWidth = s.Width.ToString(),
+                            ImageType = s.Type == null ? "image/jpeg" : s.Type,
+                            LocalImagePath = "#",
+                            RemoteImagePath = s.Name,
+                            Createtime = DateTime.Now
+                        };
+                        return detail;
+                    }
+                )
+                .ToArray();
+
+            context.BklInspectionTaskDetail.AddRange(details);
+            await context.SaveChangesAsync();
+            return Json(details);
+        }
+        [HttpGet("download")]
+        public async Task<IActionResult> DownloadReport([FromServices] BklDbContext context,
+            [FromServices] BklConfig config,
+            [FromServices] IRedisClient redis,
+            long factoryId,
+            long taskId)
+        {
+            var details = context.BklInspectionTaskDetail.Where(s => s.FactoryId==factoryId && s.TaskId == taskId).ToList();
+            var results = context.BklInspectionTaskResult.Where(s => s.FactoryId == factoryId && s.TaskId == taskId).ToList();
+            var ret = await ReportHelper.GenerateELReport(config, redis, details, results);
+            var fs = new FileStream(Path.Combine(config.MinioDataPath, ret.Location), FileMode.Open);
+            return File(fs, "application/vnd.openxmlformats-officedocument.wordprocessingml.document",ret.FileName);
+        }
+
+        [HttpGet("statistics")]
+        public JsonResult Statistics([FromServices] BklDbContext context,
+            long factoryId,
+            long taskId,
+            string type,
+            string starttime,
+            string endtime)
+        {
+            var allErrors = context.BklInspectionTaskResult.Where(s => s.FactoryId == factoryId && s.TaskId == taskId).ToList();
+            IEnumerable<IGrouping<string, BklInspectionTaskResult>> grouping = null;
+            switch (type)
+            {
+                case "company":
+                    grouping = allErrors.GroupBy(s => s.Position);
+                    break;
+                case "error":
+                    grouping = allErrors.GroupBy(s => s.DamageType);
+                    break;
+                default:
+                    break;
+            }
+            List<object> lis = new List<object>();
+            if (grouping == null)
+                return Json("");
+            foreach (var gp in grouping)
+            {
+                var errorCount = gp.GroupBy(s => s.DamageType)
+                    .Select(s => new { key = s.Key, count = s.Count() })
+                    .ToList();
+                var errorCompCount = gp.GroupBy(s => s.DamageType)
+                    .Select(s => new { key = s.Key, count = s.Select(q => q.TaskDetailId).Distinct().Count() })
+                    .ToList();
+
+                lis.Add(new { key = gp.Key, errorCount = errorCount, errorCompCount = errorCompCount });
+
+            }
+            return Json(lis);
+        }
+    }
+}

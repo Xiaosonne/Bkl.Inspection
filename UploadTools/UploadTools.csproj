@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommandLineParser" Version="2.9.1" />
+		<PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.5.0" />
+		<PackageReference Include="Magick.NET.Core" Version="13.5.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.11" />
+		<PackageReference Include="Minio" Version="4.0.3" />
+		<PackageReference Include="MySql.Data" Version="8.2.0" />
+		<PackageReference Include="SharpKml.Core" Version="6.0.0" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.0" />
+	</ItemGroup>
+ 
+
+	<ItemGroup>
+		<ProjectReference Include="..\Bkl.Infrastructure\Bkl.Infrastructure.csproj" />
+		<ProjectReference Include="..\Yitter.IdGenerator\Yitter.IdGenerator.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="alllabeleddata.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="data-updated-20240118.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="power-top-15.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="power-top-13.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="power-top8-left.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="power-top-8.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="classmaps.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="classmaps-nc16.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="data.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="power-4-class.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="power-3-class.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="power-7-class.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="power-small-class.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>
